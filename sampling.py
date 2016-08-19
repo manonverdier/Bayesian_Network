@@ -6,7 +6,6 @@ Created on Wed Jul  6 09:46:55 2016
 """
 
 import numpy as np
-import math
 
 def sampling (Infile,Nbr_classes,SamplingType):
     """
@@ -14,16 +13,17 @@ def sampling (Infile,Nbr_classes,SamplingType):
     ***Parameters :
     * Infile : csv file containing the dataset. Columns contain the variables and the rows the cases. 
     * Nbr_classes : int, number of classes to sample the dataset
+    * SamplingType : {'Rank','Value'} 
+        Method to sample the data
+         - Rank : Default, sorts the data for each variable and samples it in Nbr_classes classes of same size.
+         - Value : samples the data of each variable regarding the values of the data. The sample section will be (max-min)/Nbr_Classes
     """
     data = np.genfromtxt(Infile,delimiter=',')
-    diab= np.genfromtxt('glucose_a_traiter.csv',delimiter=',')
-
     clen, rlen = data.shape   
-#    rlen=rlen+1
-    
+
     new_tab=np.zeros([clen,rlen,Nbr_classes],dtype=float)
  
-    for c in range(0,rlen): #-1
+    for c in range(0,rlen): 
    
         #---------------------------------------------------
         sorter=np.zeros((Nbr_classes,1))
@@ -54,17 +54,6 @@ def sampling (Infile,Nbr_classes,SamplingType):
             if found==0 :
                 new_tab[l,c,-1]=1.0
      
-#    for l in range (0,clen):
-#        
-#        if diab[0,l]<6.5:
-#            
-#            if diab[1,l]==0 and diab[2,l]==0 :
-#                new_tab[l,-1,0]=1.0
-#               
-#            else : 
-#                new_tab[l,-1,1]=1.0
-#            
-#        else : new_tab[l,-1,2]=1.0
 
     return new_tab
 

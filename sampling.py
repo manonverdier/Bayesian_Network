@@ -59,7 +59,7 @@ def sampling (Infile,Nbr_classes,SamplingType):
 
 
 
-def sampling_wt (Infile,Nbr_classes):
+def sampling_wt (Infile,Nbr_classes,SamplingType):
     """
     Generate a np.array containing the dataset sampled into Nbr_classes classes with a weight system. 
     ***Parameters :
@@ -80,13 +80,20 @@ def sampling_wt (Infile,Nbr_classes):
  
     for c in range(0,rlen): 
 
-      #----------------- sur le rang --------------------------
-        data_sort=np.sort(data[:,c])
-        x=len(data_sort)/(Nbr_classes*4)
+      #-------------------------------------------
         sorter=np.zeros((Nbr_classes*4,1))
-        for num_classe in range(Nbr_classes*4) :    
-            sorter[num_classe]=data_sort[(num_classe+1)*int(x)-1]
-
+        
+        if SamplingType=='Rank' :   
+            data_sort=np.sort(data[:,c])
+            x=len(data_sort)/(Nbr_classes*4)        
+            for num_classe in range(Nbr_classes*4) :    
+                sorter[num_classe]=data_sort[(num_classe+1)*int(x)-1]
+                
+        elif SamplingType=='Value':
+            data_=data[:,c]
+            x=(max(data_)-min(data_))/(Nbr_classes*4)
+            for num_classe in range(Nbr_classes*4) :
+                sorter[num_classe]=min(data_)+(num_classe+1)*int(x)
       #--------------------------------------------------------            
     
         for l in range(0,clen):
@@ -115,9 +122,3 @@ def sampling_wt (Infile,Nbr_classes):
                     new_tab[l,c,Nbr_classes-1]=1.0
 
     return new_tab
-#    
-#print sampling_wt('test_ech.csv',4)
-#D[np.nonzero(D)]=1
-#D=array
-#with open('file_wt.csv', 'wb') as f:
-#    csv.writer(f).writerows(array)

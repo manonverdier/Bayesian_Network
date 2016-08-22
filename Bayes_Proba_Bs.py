@@ -65,14 +65,11 @@ def N_ij (D,Bs,i,j, ri):
 def jk(D,Bs,i,j,frac,possible,ri):     
 
     Num=factorial(ri-1)
-    #print '('+str(ri)+'-1)!'
     Den=factorial(N_ij(D,Bs,i,j,ri)+ri-1)
-    #print '('+str(N_ij(D,Bs,i,j,ri))+'+'+str(ri)+'-1)!'
     frac*=np.float128(Num)/np.float128(Den)
 
     for k in range(0,ri):
         frac*=factorial(N_ijk(D,Bs,i,j,k,ri))       
-        #print str(N_ijk(D,Bs,i,j,k,ri))+'!'
         if N_ijk(D,Bs,i,j,k,ri)!=0 :
             possible=1   
 

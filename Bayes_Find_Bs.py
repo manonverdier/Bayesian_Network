@@ -17,16 +17,18 @@ def Bs_random (D,NbrLinks,Nbr_parents):
         A variable cannot be parent with itself.
     *** Parameters : 
     * D : np.array of the dataset
-    * NbrLinks : int, number of variables that will have parents
-    * Nbr_parents : int, number of parents that have the variables.
+    * NbrLinks : int, maximal number of variables that will have parents
+    * Nbr_parents : int, maximal number of parents that have the variables.
     
     """
     
     clen , rlen,k = D.shape   
     Bs=np.zeros([rlen,rlen])
-    rand=random.sample(range(rlen), NbrLinks)      
+    Nbr_links=random.randint(0,NbrLinks)
+    rand=random.sample(range(rlen), Nbr_links)      
     for c in rand:  
-        Bs[random.sample(range(c)+range(c+1,rlen), Nbr_parents) ,c]=1
+        Nbrparents=random.randint(0,Nbr_parents)
+        Bs[random.sample(range(c)+range(c+1,rlen), Nbrparents) ,c]=1
     return Bs
     
 

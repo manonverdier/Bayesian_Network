@@ -40,7 +40,7 @@ def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3
          - Test : Mode to test a network Bs_test given as argument.
     * Bs_file : csv file containing the adjency matrix representing a network to test. Used only if the method='Test'.
     * NbrTests : int, number of networks tested with the Best_Random method. default = 1000
-    * NbrLinks_default : True or int. Number of variables that will have parents with the Random and the Best_Random method.
+    * NbrLinks_default : True or int. Number max of variables that will have parents with the Random and the Best_Random method.
                          If True, the number is egual to the number of variables. Default = True.
     * Draw_graph : bool, to see the results as a directed graph with a Spring layout. Default = False. 
     * Nbr_iter : int, number of iterations for the Spring layout. Default = 30.
@@ -52,7 +52,7 @@ def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3
 
     
     if Weight_Sampling :
-        D=sampling_wt(Infile,ri)
+        D=sampling_wt(Infile,ri,SamplingType)
     else :
         D=sampling(Infile,ri,SamplingType)
         

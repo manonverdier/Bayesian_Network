@@ -11,7 +11,7 @@ This algorithm generates a high probability network for a dataset. The results c
 * [K2_add_to_matrix](https://github.com/manonverdier/Bayesian_Network/wiki#K2_add_to_matrix)
 
 
-## USAGE 
+## Usage
 
 To run the code, you can type the following lines, and follow the instructions :
 
@@ -37,8 +37,9 @@ The results of the tests should be :
 * Test 1 : Probability = 2.23e-09
 * Test 2 and 3 : Probability = 1.60e-12
 
+The test 1 implements the example from Cooper's paper. The test 2 and 3 implement three variables. The first one is independant of the others, which are related : the third variable is equal to the second one plus 0.1. In the results, we are supposed to find again that : the graph show us the link between var2 and var3, and the independancy of var1.
 
-## DEPENDENCIES 
+## Dependencies 
 
 - NumPy
 - SciPy
@@ -49,7 +50,12 @@ The results of the tests should be :
 - Os
 - ConfigParser
 
-## REFERENCE 
+## Reference
 
 - http://link.springer.com/article/10.1007/BF00994110
+
+
+## Disclaimer
+
+This software has been developed for research purposes only, and hence should not be used as a diagnostic tool. In no event shall the authors or distributors be liable to any direct, indirect, special, incidental, or consequential damages arising of the use of this software, its documentation, or any derivatives thereof, even if the authors have been advised of the possibility of such damage.
 

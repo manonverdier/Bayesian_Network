@@ -66,7 +66,7 @@ def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3
     elif isinstance(NbrLinks_default,int) : 
         NbrLinks=NbrLinks_default
     else : 
-        raise TypeError ('Error : NbrLinks has to instancied as True or an integer.') 
+        raise TypeError ('NbrLinks has to instancied as True or an integer.') 
     
 
     #---------------------------------------------------------
@@ -94,10 +94,10 @@ def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3
     elif method=='K2_add_to_matrix':
         Bs=K2_add_to_matrix(D,ri,Nbr_max_parents)
     elif method=='Test' : 
-        if Bs_file!=None :
+        if Bs_file!='None' :
             Bs=np.genfromtxt(Bs_file,dtype=int, delimiter=',') 
         else :
-            raise TypeError( 'Test mode needs a csv file containing the adjency matrix to test.')
+            raise TypeError( 'Bs_file is incorrect. Test mode needs a csv file containing the adjency matrix to test. ')
             
     else :
         raise NameError ('Incorrect method')

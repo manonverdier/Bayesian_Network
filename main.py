@@ -27,7 +27,7 @@ if len(sys.argv)>1:
     knownAnswer=True
     Answer=sys.argv[1]
     if Answer=='5' and len(sys.argv)>2:
-        name_config=sys.argv[2]
+        file_config=sys.argv[2]
         ask_config=False
 
 parameters_labels=['data_labels','Nbr_max_parents','Nbr_sampling','SamplingType','Weight_Sampling','method','Bs_file','NbrTests','NbrLinks_default','Draw_graph','Nbr_iter','SaveFig','GeneratesFiles_toGraph']
@@ -35,9 +35,6 @@ parameters=[data_labels,Nbr_max_parents,Nbr_sampling,SamplingType,Weight_Samplin
 
 
 configParser = ConfigParser.RawConfigParser()
-configFilePath = os.path.join(os.path.dirname(__file__), 'configuration.txt')
-
-configParser.read(configFilePath)
 
 
 ans=True
@@ -45,7 +42,7 @@ while ans:
     if knownAnswer:
         ans=Answer
     else:
-        print ("\n If you want to save your parameters for the option 5, please fill configuration.txt as in the tests examples")
+        print ("\n If you want to save your parameters for the option 5, please write a txt file following the examples of configuration_*.txt")
       
         print ("""
         1. Run test1
@@ -66,20 +63,24 @@ while ans:
     else:
         if ask_config :
             if ans=='5':
-                name_config=raw_input("What is the name of the configuration ?")	
-    
+                file_config=raw_input("What is the name of the configuration file (.txt) ?")
+                    
             elif ans!='4' :
-                name_config='test'+ans
-                
-        if ans!='4' :
+                file_config='configuration_'+ans+'.txt'
+            print file_config                   
 
-            Infile = configParser.get(name_config, 'infile')
+        if ans!='4' :
+            
+            configFilePath = os.path.join(os.path.dirname(__file__), file_config)
+            configParser.read(configFilePath)
+            
+            Infile = configParser.get('config', 'infile')
             print "\n Infile chosen : %s"  %Infile
             
             print "\n Changed parameters :"
 
-            if configParser.has_option(name_config, 'data_labels'):
-                parameters[0] = configParser.get(name_config, 'data_labels').split(",")
+            if configParser.has_option('config', 'data_labels'):
+                parameters[0] = configParser.get('config', 'data_labels').split(",")
                 print "data_labels chosen : " 
                 print ' ' .join(parameters[0])   
            
@@ -87,24 +88,24 @@ while ans:
             for param in range(1,len(parameters)) :	
                 #It can be two types, treated appart.
                 if parameters_labels[param] == "NbrLinks_default":
-                    if configParser.has_option(name_config, 'NbrLinks_default'):
-                        NbrLinks_default_arg = configParser.get(name_config, 'NbrLinks_default')                        
+                    if configParser.has_option('config', 'NbrLinks_default'):
+                        NbrLinks_default_arg = configParser.get('config', 'NbrLinks_default')                        
                         if NbrLinks_default_arg=='True': 
                             parameters[param] = True
                             print "Number max of variables that will have parents with Best_Random method : NbrLinks = Number of variables"
                         else: 
-                            parameters[param] = configParser.getint(name_config, 'NbrLinks_default')
+                            parameters[param] = configParser.getint('config', 'NbrLinks_default')
                             print "Number max of variables that will have parents with Best_Random method : NbrLinks = %d " %parameters[8]
                 else:	
-                    if configParser.has_option(name_config, parameters_labels[param]):
+                    if configParser.has_option('config', parameters_labels[param]):
                         if isinstance(parameters[param],bool):
-                            parameters[param]=configParser.getboolean(name_config, parameters_labels[param])
+                            parameters[param]=configParser.getboolean('config', parameters_labels[param])
                             print parameters_labels[param]+" : %r" %parameters[param]
                         elif isinstance(parameters[param],int):
-                            parameters[param]=configParser.getint(name_config, parameters_labels[param])
+                            parameters[param]=configParser.getint('config', parameters_labels[param])
                             print parameters_labels[param]+" chosen : %d" %parameters[param]
                         elif isinstance(parameters[param],str):
-                            parameters[param]=configParser.get(name_config, parameters_labels[param])
+                            parameters[param]=configParser.get('config', parameters_labels[param])
                             print parameters_labels[param]+" chosen : %s" %parameters[param]
 
          
@@ -135,7 +136,7 @@ while ans:
         Draw_graph =parameters[9]
         Nbr_iter =parameters[10]
        
-        Bayesian_method (Infile, data_labels, Nbr_max_parents, Nbr_sampling, SamplingType, Weight_Sampling, method,Bs_file, NbrTests, NbrLinks_default,Draw_graph,Nbr_iter)
+        Bayesian_method (Infile, data_labels, Nbr_max_parents, Nbr_sampling, SamplingType, Weight_Sampling, method,Bs_file, NbrTests, NbrLinks_default,Draw_graph,Nbr_iter,SaveFig,GeneratesFiles_toGraph)
            
         ans=False
 

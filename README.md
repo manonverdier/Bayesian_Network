@@ -30,13 +30,13 @@ The main file leads to a menu.
 5. Run other configuration pre-defined (in configuration.txt)
 
 There are 3 small tests available to verify the algorithm. 
-For the option 4, you can run your dataset and enter the parameters directly when the instructions ask you to. The option 5 is after filling a new configuration in the file configuration.txt in order to set your parameters and use them again. To know how to fill this file, pleaser refer to the [according section](https://github.com/manonverdier/Bayesian_Network/wiki#configurationtxt) in the wiki page.
+For the option 4, you can run your dataset and enter the parameters directly when the instructions ask you to. The option 5 is after writting a new .txt configuration file in order to set your parameters and use them again. To know how to fill this file, pleaser refer to the [according section](https://github.com/manonverdier/Bayesian_Network/wiki#configurationtxt) in the wiki page.
 
 If you already know how to use the code and want to skip the menu, you can add an option. The option corresponds to the number of the menu previously presented and goes from 1 to 5. If the option 5 is chosen, you can directly add the configuration name as a second option. Here are some examples. The following line will run the test 3.
 ```
 python main.py 3
 ```
-And this line will run the parameters configuration pre-defined in configuration.txt named my_configuration. 
+And this line will run the parameters configuration pre-defined in _configuration.txt_ named my_configuration. 
 ```
 python main.py 5 my_configuration
 ```
@@ -70,5 +70,6 @@ The test 1 implements the example from Cooper's paper. The test 2 and 3 implemen
 ## Disclaimer
 
 This software has been developed for research purposes only, and hence should not be used as a diagnostic tool. In no event shall the authors or distributors be liable to any direct, indirect, special, incidental, or consequential damages arising of the use of this software, its documentation, or any derivatives thereof, even if the authors have been advised of the possibility of such damage.
+
 
 

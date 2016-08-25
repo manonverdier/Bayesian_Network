@@ -14,7 +14,7 @@ from Bayes_Find_Bs import K2, K2_emptymatrix, Bs_random, K2_add_to_matrix
 from Bayes_Proba_Bs import proba_Bs
 
 
-def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3, SamplingType='Rank', Weight_Sampling=False, method='K2_emptymatrix',Bs_file=None, NbrTests=1000, NbrLinks_default=True,Draw_graph=False,Nbr_iter=30):
+def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3, SamplingType='Rank', Weight_Sampling=False, method='K2_emptymatrix',Bs_file=None, NbrTests=1000, NbrLinks_default=True,Draw_graph=False,Nbr_iter=30,SaveFig=False,GeneratesFiles_toGraph=True):
     """
     Parameters:
     * Infile : csv file containing the dataset. Columns contain the variables and the rows the cases. 
@@ -44,6 +44,8 @@ def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3
                          If True, the number is equal to the number of variables. Default = True.
     * Draw_graph : bool, to see the results as a directed graph with a Spring layout. Default = False. 
     * Nbr_iter : int, number of iterations for the Spring layout. Default = 30.
+    * SaveFig : bool, will save the figure of the graph if Draw_graph is True. Default = False
+    * GeneratesFiles_toGraph : bool, generates csv files to import the results in another graph visualization software (e.g Cystoscape). Default=True
     """
 
     ri=Nbr_sampling   
@@ -133,5 +135,40 @@ def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3
             nx.draw_networkx_edges(g,pos)
             nx.draw_networkx_labels(g,pos, labels=labels)
         plt.axis('off')
-        
-
+        plt.show()
+        if SaveFig : 
+            plt.savefig('Graph_'+Infile[:-4]+'_'+method+'.pdf')
+            
+            #--------------------------------------------------------
+        if GeneratesFiles_toGraph :
+            import csv
+            
+            Nbr_data=len(data_labels)
+            labels={}
+            for i in range(len(data_labels)):
+                labels[i]=data_labels[i]
+              
+            new_tab=np.zeros([Nbr_data,2],dtype=object)
+            
+            for i in range(0,Nbr_data):
+                new_tab[i,0]=i
+                new_tab[i,1]=data_labels[i]
+    
+            with open('to_cytoscape_labels_'+Infile[:-4]+'_'+method+'.csv', 'wb') as f:
+                csv.writer(f).writerows(new_tab)
+            #--------------
+                
+            new=np.empty([1,2],dtype=object)
+            for j in range(clen) : 
+                nnz=np.nonzero(Bs[j,:])[0]
+                if len(nnz)!=0:
+                    for a in range(0,len(nnz)):
+                        new=np.append(new,[[j+1,nnz[:][a]+1]],axis=0)
+                else :    
+                        new=np.append(new,[[j+1,-1]],axis=0)
+            
+            new=np.delete(new, 0, 0)   
+            np.place(new,new==-1,None)
+            
+            with open('to_cytoscape_Network_'+Infile[:-4]+'_'+method+'.csv', 'wb') as f:
+                csv.writer(f).writerows(new)

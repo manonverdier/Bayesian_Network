@@ -27,6 +27,8 @@
 #                      If True, the number is equal to the number of variables. Default = True.
 # * Draw_graph : bool, to see the results as a directed graph with a Spring layout. Default = False. 
 # * Nbr_iter : int, number of iterations for the Spring layout. Default = 30.
+# * SaveFig : bool, will save the figure of the graph if Draw_graph is True. Default = False
+# * GeneratesFiles_toGraph : bool, generates files to import the results in another graph visualization software (e.g Cystoscape). Default = True
 # """
 
 [test1]
@@ -35,17 +37,19 @@ SamplingType: Value
 Nbr_sampling:2
 method: Test
 Bs_file: Bs1.csv
+GeneratesFiles_toGraph=False
 
 [test2]
 infile = Table_test_2.csv
 data_labels=var1,var2,var3
 Nbr_max_parents: 2
 method: Best_Random
-Draw_graph: True
+#Draw_graph: True
+GeneratesFiles_toGraph=False
 
 [test3]
 infile = Table_test_2.csv
 data_labels: var1,var2,var3
-Draw_graph: True
-
+#Draw_graph: True
+GeneratesFiles_toGraph=False
 

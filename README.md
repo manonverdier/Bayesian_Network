@@ -36,9 +36,9 @@ If you already know how to use the code and want to skip the menu, you can add a
 ```
 python main.py 3
 ```
-And this line will run the parameters configuration pre-defined in _configuration.txt_ named my_configuration. 
+And this line will run the parameters configured in _my\_configurationFile.txt_.
 ```
-python main.py 5 my_configuration
+python main.py 5 my_configurationFile.txt
 ```
 
 The results of the tests should be :

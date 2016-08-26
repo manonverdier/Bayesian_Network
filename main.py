@@ -67,7 +67,7 @@ while ans:
                     
             elif ans!='4' :
                 file_config='configuration_'+ans+'.txt'
-            print file_config                   
+                              
 
         if ans!='4' :
             

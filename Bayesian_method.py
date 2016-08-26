@@ -159,7 +159,7 @@ def Bayesian_method (Infile, data_labels=None, Nbr_max_parents=3, Nbr_sampling=3
             #--------------
                 
             new=np.empty([1,2],dtype=object)
-            for j in range(clen) : 
+            for j in range(rlen) : 
                 nnz=np.nonzero(Bs[j,:])[0]
                 if len(nnz)!=0:
                     for a in range(0,len(nnz)):

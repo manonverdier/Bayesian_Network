@@ -7,23 +7,32 @@ Created on Wed Jul  6 09:46:55 2016
 
 import numpy as np
 
-def sampling (Infile,Nbr_classes,SamplingType):
+
+def sampling (Infile,Nbr_classes,SamplingType,  ListVarDiff, Vectors):
     """
     Generate a np.array containing the dataset sampled into Nbr_classes classes. 
     ***Parameters :
-    * Infile : csv file containing the dataset. Columns contain the variables and the rows the cases. 
+    * Infile : csv file containing the dataset. Columns contain the variables
+               and the rows the cases. 
     * Nbr_classes : int, number of classes to sample the dataset
     * SamplingType : {'Rank','Value'} 
         Method to sample the data
-         - Rank : Default, sorts the data for each variable and samples it in Nbr_classes classes of same size.
-         - Value : samples the data of each variable regarding the values of the data. The sample section will be (max-min)/Nbr_Classes
+         - Rank : Default, sorts the data for each variable and samples it in
+                  Nbr_classes classes of same size.
+         - Value : samples the data of each variable regarding the values of 
+                   the data. The sample section will be (max-min)/Nbr_Classes
+    * ListVarDiff : list of int, id numbers of the variables that need a 
+                    different sampling, already known. Default=[]
+    * Vectors : list of vectors (of int), vectors containing the number of the
+                group sampling of each case. The first group is 0 and the last
+                one is Nbr_sampling-1. Default = []
     """
     data = np.genfromtxt(Infile,delimiter=',')
     clen, rlen = data.shape   
-
+    
     new_tab=np.zeros([clen,rlen,Nbr_classes],dtype=float)
- 
-    for c in range(0,rlen): 
+
+    for c in list(set(range(rlen))-set(ListVarDiff)): 
    
         #---------------------------------------------------
         sorter=np.zeros((Nbr_classes,1))
@@ -53,17 +62,28 @@ def sampling (Infile,Nbr_classes,SamplingType):
                 idx+=1   
             if found==0 :
                 new_tab[l,c,-1]=1.0
-     
+    i=0 
+    for c in ListVarDiff :      
+        for l in range(0,clen):
+            if len(ListVarDiff)==1:
+                new_tab[l,c,int(Vectors[l])]=1.0
+            else:
+                new_tab[l,c,Vectors[i][l]]=1.0
+        i+=1
 
     return new_tab
 
 
 
+
+
 def sampling_wt (Infile,Nbr_classes,SamplingType):
     """
-    Generate a np.array containing the dataset sampled into Nbr_classes classes with a weight system. 
+    Generate a np.array containing the dataset sampled into Nbr_classes
+    classes with a weight system. 
     ***Parameters :
-    * Infile : csv file containing the dataset. Columns contain the variables and the rows the cases. 
+    * Infile : csv file containing the dataset. Columns contain the variables
+               and the rows the cases. 
     * Nbr_classes : int, number of classes to sample the dataset
     """
 

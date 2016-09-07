@@ -20,8 +20,7 @@ def Bs_random (D,NbrLinks,Nbr_parents):
     * NbrLinks : int, maximal number of variables that will have parents
     * Nbr_parents : int, maximal number of parents that have the variables.
     
-    """
-    
+    """    
     clen , rlen,k = D.shape   
     Bs=np.zeros([rlen,rlen])
     Nbr_links=random.randint(0,NbrLinks)
@@ -76,8 +75,7 @@ def K2 (D,ri,u):
             
         if len(pi)!=0:        
             Bs_final[list(pi),i]=1
-                        
-    
+                      
     return Bs_final
  
    
@@ -129,10 +127,9 @@ def K2_emptymatrix (D,ri,u):
             Bs_final[list(pi),i]=1           
                                    
     return Bs_final    
-    
-    
-    
-    
+
+
+
 def K2_add_to_matrix (D,ri,u):
     """
     Returns the adjency matrix of the network by adding the most probable 
@@ -159,8 +156,7 @@ def K2_add_to_matrix (D,ri,u):
         if found==0:
             Bmax=Bs
         return fmax,Bmax,found,varmax
-        
-            
+                 
     Bs=np.zeros([rlen,rlen]) 
     for i in range(0,Nbr_data):
         P0=proba_Bs(Bs,D,ri,Nbr_data)
@@ -178,7 +174,58 @@ def K2_add_to_matrix (D,ri,u):
     return Bs    
     
 
+    
+def Simulated_annealing(D,ri,Nbr_simulations,Nbr_parents,withApriori=False,proba_matrix=None):
+    clen , rlen,k = D.shape  
+    Nbr_data=rlen
+    Bs_ref=Bs_random(D,Nbr_data,Nbr_parents)
+    T=1    
+    if withApriori and proba_matrix!=None :
+        ToChooseList=[]
+        for i in range(proba_matrix.shape[0]):
+            for j in range(proba_matrix.shape[1]):
+                ToChooseList+=[[i,j]]*proba_matrix[i,j]
+        
+    for i in range(Nbr_simulations):
+        method=random.sample([0,1],1)[0]
+        randCol=random.randint(0,rlen-1)
+        Bs_test=copy.copy(Bs_ref)
+        
+        if method==0 : #Movement : change of a parent's place    
+            nnz= np.nonzero(Bs_ref[:,randCol])[0]
+            if len(nnz)>0 :
+                nnz=random.sample(set(np.nonzero(Bs_ref[:,randCol])[0]),1)[0]               
+                Bs_test[nnz,randCol]=0
 
+                Bs_test[random.sample(range(0,randCol)+range(randCol+1,rlen-1),1),randCol]=1
+                
+        else :  #Change of state              
+            if withApriori and proba_matrix!=None :
+                ToChoose=random.sample(ToChooseList,1)[0]   
+                val=Bs_test[ToChoose[0],ToChoose[1]]
+                if val==0 and len(np.nonzero(Bs_test[:,ToChoose[1]])[0])>=Nbr_parents :
+                    pass 
+                else : 
+                    Bs_test[ToChoose[0],ToChoose[1]]=float(not val )
+            else : 
+                Randrow=random.randint(0,rlen-1)
+                val=Bs_test[Randrow,randCol]
+                if val==0 and len(np.nonzero(Bs_test[:,randCol])[0])>=Nbr_parents :
+                    pass 
+                else : 
+                    Bs_test[Randrow,randCol]=float(not val )
+        if proba_Bs(Bs_test,D,ri,Nbr_data)>proba_Bs(Bs_ref,D,ri,Nbr_data):
+            Bs_ref=Bs_test
+        else : 
+            if random.uniform(0, 1) < T :
+                Bs_ref=Bs_test
+            else : 
+                pass
+
+        T=np.exp(np.log(0.1)*i/(0.1*Nbr_simulations)) #temperature descreases in a/x with a st T=0.1 at the 30% iteration
+            
+    return Bs_ref
+  
     
 
  

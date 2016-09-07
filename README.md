@@ -9,6 +9,7 @@ This algorithm generates a high probability network for a dataset. The results c
 * [K2](https://github.com/manonverdier/Bayesian_Network/wiki#K2)
 * [K2_emptymatrix](https://github.com/manonverdier/Bayesian_Network/wiki#K2_emptymatrix) 
 * [K2_add_to_matrix](https://github.com/manonverdier/Bayesian_Network/wiki#K2_add_to_matrix)
+* [Simulated_annealing](https://github.com/manonverdier/Bayesian_Network/wiki#Simulated_annealing)
 
 
 ## Usage
@@ -23,9 +24,9 @@ python main.py
 
 The main file leads to a menu. 
 
-1. Run test1
-2. Run test2
-3. Run test3 
+1. Run test1 from configuration_1.txt
+2. Run test2 from configuration_2.txt
+3. Run test3 from configuration_3.txt
 4. Run user's dataset and choose the parameters
 5. Run other configuration pre-defined (in configuration.txt)
 
@@ -66,7 +67,7 @@ A line is commented in the _configuration\_2.txt_ and _configuration\_3.txt_ in 
 ## Reference
 
 - http://link.springer.com/article/10.1007/BF00994110
-
+- https://github.com/asaini/Apriori
 
 ## Disclaimer
 
